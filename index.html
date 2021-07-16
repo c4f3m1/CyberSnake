@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+        <title>CyberSnake</title>
+        <link rel="stylesheet" href="css/style.css">
+
+        <script type="application/javascript">
+
+
+            function table(ctx, w, h, elements){
+
+                // Quantity elements
+                var cantX = elements;
+                var cantY = (h * cantX) / w;
+
+                // Incremental position
+                var initx = w / cantX;
+                var inity = h / cantY;
+
+                // Elements distance
+                var dist = w / h;
+
+                // Initial position
+                var x = dist;
+                var y = dist;
+
+                // Elements Size
+                var width = initx - dist;
+                var height = inity - dist;
+
+                for (var i = 0; i < cantY; i++){
+                    for (var j = 0; j < cantX; j++){
+
+                        ctx.fillRect (x, y, width, height);
+                        x = x + initx;
+                    }
+                    y = y + inity;
+                    x = dist;
+                }
+            }
+
+
+
+            function draw() {
+
+                window.onscroll = function () { window.scrollTo(0, 0); };
+
+                var canvas = document.getElementById("canvas");
+
+                if (canvas.getContext) {
+
+                    var ctx = canvas.getContext("2d");
+
+                    // Total screen size
+                    //var w = window.screen.availWidth, h = window.screen.availHeight;
+                    // Actual screen size
+                    var w = window.innerWidth, h = window.innerHeight;
+
+                    canvas.width = w;
+                    canvas.height = h;
+
+                    ctx.fillStyle = "rgb(187, 23, 45)";
+                    table(ctx, w, h, 80);
+                }
+            }
+        </script>
+    </head>
+
+    <body onload="draw();">
+        <div class="container">
+            <canvas id="canvas"></canvas>
+        </did>
+    </body>
+</html>
