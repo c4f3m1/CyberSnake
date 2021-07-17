@@ -7,11 +7,6 @@ class Position {
     get pos(){
         return [x, y];
     }
-    /* Setters */
-    set pos(x, y){
-        this.x = x;
-        this.y = y;
-    }
 
     /* Methods */
     static distance(a, b) {
@@ -21,3 +16,5 @@ class Position {
         return Math.hypot(dx, dy);
     }
 }
+
+export default Position
