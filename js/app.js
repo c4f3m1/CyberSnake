@@ -1,23 +1,23 @@
 import Position from './position.js';
 import Board from './board.js';
 
-function table(ctx, w, h, elements){
-
+function table(ctx, w, h){
 
     ctx.fillStyle = "rgb(187, 23, 45)";
 
     // Quantity elements
-    var cantX = elements;
-    var cantY = (h * cantX) / w;
+    var cantX = Math.round(w / 15);
+    var cantY = Math.round((h * cantX) / w);
+    var cantElements = cantX * cantY;
 
-
+    console.log("Elementos X = " + cantX + " Elementos Y = " + cantY + " Total Elementos = " + cantElements);
 
     // Incremental position
     var initx = w / cantX;
     var inity = h / cantY;
 
     // Elements distance
-    var dist = w / h;
+    var dist = 2;
 
     // Initial position
     var x = dist;
@@ -29,7 +29,6 @@ function table(ctx, w, h, elements){
 
     var pos;
     var board = new Board();
-
 
     for (var i = 0; i < cantY; i++){
         for (var j = 0; j < cantX; j++){
@@ -46,13 +45,26 @@ function table(ctx, w, h, elements){
         y = y + inity;
         x = dist;
     }
+    console.log(board.positions);
 
-    for (var s = 0; s < 79; s++){
-        x = board.positions[s].x;
-        y = board.positions[s].y;
-        ctx.fillStyle = "rgb(16, 133, 26)";
-        ctx.fillRect (x, y, width, height);
-    }
+    var elmX = cantX;
+
+     var myVar = setInterval(
+        function(){
+
+            for (var i = 0; i < elmX; i++){
+
+                x = board.positions[i].x;
+                y = board.positions[i].y;
+                ctx.fillStyle = "rgb(16, 133, 26)";
+                ctx.fillRect (x, y, width, height);
+            }
+            elmX += cantX;
+
+            // clearInterval(myVar);
+        }, 300);
+
+
 }
 
 
@@ -74,7 +86,7 @@ function start() {
         canvas.width = w;
         canvas.height = h;
 
-        table(ctx, w, h, 80);
+        table(ctx, w, h);
     }
 }
 
