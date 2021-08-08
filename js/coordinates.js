@@ -1,10 +1,11 @@
-class Position {
+class Coordinates {
     constructor(x, y){
         this.x = x;
         this.y = y;
     }
+
     /* Getters */
-    get pos(){
+    get coords(){
         return [x, y];
     }
 
@@ -17,4 +18,4 @@ class Position {
     }
 }
 
-export default Position
+export default Coordinates

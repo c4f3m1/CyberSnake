@@ -1,93 +1,117 @@
-import Position from './position.js';
+import Coordinates from './coordinates.js';
 import Board from './board.js';
+import Snake from './snake.js';
+import Gameboard from './gameboard.js';
 
-function table(ctx, w, h){
+var directions = ['l','u','r','d'];
+var direction;
 
-    ctx.fillStyle = "rgb(187, 23, 45)";
+function genCoords(ctx, w, h){
 
     // Quantity elements
-    var cantX = Math.round(w / 15);
-    var cantY = Math.round((h * cantX) / w);
-    var cantElements = cantX * cantY;
-
-    console.log("Elementos X = " + cantX + " Elementos Y = " + cantY + " Total Elementos = " + cantElements);
+    let cantX = Math.round(w / 15);
+    let cantY = Math.round((h * cantX) / w);
+    let cantElements = cantX * cantY;
 
     // Incremental position
-    var initx = w / cantX;
-    var inity = h / cantY;
+    let initx = w / cantX;
+    let inity = h / cantY;
 
     // Elements distance
-    var dist = 2;
+    let dist = 2;
 
     // Initial position
-    var x = dist;
-    var y = dist;
+    let x = dist;
+    let y = dist;
 
     // Elements Size
-    var width = initx - dist;
-    var height = inity - dist;
+    let width = initx - dist;
+    let height = inity - dist;
 
-    var pos;
-    var board = new Board();
+    let coords;
+    let coordinates = [];
 
-    for (var i = 0; i < cantY; i++){
-        for (var j = 0; j < cantX; j++){
+    for (let i = 0; i < cantY; i++){
+        for (let j = 0; j < cantX; j++){
 
             x = Math.round(x * 100) / 100;
             y = Math.round(y * 100) / 100;
 
-            pos = new Position(x, y);
-            board.addPos(pos);
+            coords = new Coordinates(x, y);
+            coordinates.push(coords);
 
-            ctx.fillRect (x, y, width, height);
             x = x + initx;
         }
         y = y + inity;
         x = dist;
     }
-    console.log(board.positions);
 
-    var elmX = cantX;
-
-     var myVar = setInterval(
-        function(){
-
-            for (var i = 0; i < elmX; i++){
-
-                x = board.positions[i].x;
-                y = board.positions[i].y;
-                ctx.fillStyle = "rgb(16, 133, 26)";
-                ctx.fillRect (x, y, width, height);
-            }
-            elmX += cantX;
-
-            // clearInterval(myVar);
-        }, 300);
-
+    return coordinates;
 
 }
 
 
-function start() {
+function genCanvas(w, h) {
 
-    window.onscroll = function () { window.scrollTo(0, 0); };
+    let canvas = document.getElementById("canvas");
 
-    var canvas = document.getElementById("canvas");
+    canvas.width = w;
+    canvas.height = h;
 
-    if (canvas.getContext) {
+    return canvas.getContext("2d");
+}
 
-        var ctx = canvas.getContext("2d");
+document.onkeydown = function(e) {
 
-        // Total screen size
-        //var w = window.screen.availWidth, h = window.screen.availHeight;
-        // Actual screen size
-        var w = window.innerWidth, h = window.innerHeight;
+    let pos;
 
-        canvas.width = w;
-        canvas.height = h;
-
-        table(ctx, w, h);
+    switch (e.keyCode) {
+        case 37:
+            pos = 0;
+            break;
+        case 38:
+            pos = 1;
+            break;
+        case 39:
+            pos = 2;
+            break;
+        case 40:
+            pos = 3;
+            break;
     }
-}
 
-start();
+    direction = directions[pos];
+};
+
+window.onscroll = function () {
+
+    window.scrollTo(0, 0);
+};
+
+window.onload = function () {
+
+    let ctx;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    let coordinates;
+    let coordinatesSnake = [];
+    let board;
+    let snake;
+    let gameboard;
+
+    ctx = genCanvas(width, height);
+    coordinates = genCoords(ctx, width, height);
+
+    board = new Board(ctx, width, height, coordinates);
+    board.printCoords();
+
+    coordinatesSnake.push(board.randCoords());
+
+    snake = new Snake(coordinatesSnake, 1000);
+
+    gameboard = new Gameboard(board, snake);
+    console.log("Gameboard -> ");
+    console.log(gameboard);
+    gameboard.start();
+
+}

@@ -1,18 +1,17 @@
-class snake {
+import Coordinates from './coordinates.js';
 
-    constructor(size, vel){
-        this.size = size;
-        this.vel = vel;
+class Snake {
+
+    constructor(coordinates, velocity){
+        this.coordinates = coordinates;
+        this.velocity = velocity;
+        this.colour = "rgb(16, 133, 26)";
     }
-
-    get size(){
-        return this.size;
+    
+    addPos(coordinates){
+        this.coordinates.push(coordinates);
     }
-    get vel(){
-        return this.vel;
-    }
-
-
-
 
 }
+
+export default Snake
