@@ -15,7 +15,9 @@ class Board {
         this.elemWidth = this.initx - this.dist;
         this.elemHeight = this.inity - this.dist;
         this.coordinates = coordinates;
+
     }
+
 
     get board(){
         return this.coordinates;
