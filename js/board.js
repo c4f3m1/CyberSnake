@@ -15,6 +15,7 @@ class Board {
         this.elemWidth = this.initx - this.dist;
         this.elemHeight = this.inity - this.dist;
         this.coordinates = coordinates;
+        this.color = "rgb(187, 23, 45)";
 
     }
 
@@ -23,18 +24,28 @@ class Board {
         return this.coordinates;
     }
 
-    randCoords() {
+    posXCoord(pos){
+
+        return this.coordinates[pos].x;
+    }
+
+    posYCoord(pos){
+
+        return this.coordinates[pos].y;
+    }
+
+    randPos() {
 
         let min = 0;
         let max = this.coordinates.length;
         let posId = Math.floor((Math.random() * (max - min + 1)) + min);
 
-        return this.coordinates[posId];
+        return posId;
     }
 
     printCoords(){
 
-        this.ctx.fillStyle = "rgb(187, 23, 45)";
+        this.ctx.fillStyle = this.color;
 
         // Initial position
         let x = this.dist;
